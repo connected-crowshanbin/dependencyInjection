@@ -1,16 +1,20 @@
 package com.important;
 
+import com.logging.OrderLoggerForTests;
 import com.models.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
 class OrderProcessorTest {
 
     OrderProcessor orderProcessor;
+    private OrderLoggerForTests customOrderLogger;
 
     @BeforeEach
     void setUp() {
-        orderProcessor = new OrderProcessor();
+        customOrderLogger = new OrderLoggerForTests();
+        orderProcessor = new OrderProcessor(customOrderLogger);
     }
 
     @Test
@@ -19,7 +23,7 @@ class OrderProcessorTest {
 
         orderProcessor.processOrder(order);
 
-        // ???
+        // make sure it's called with "Processing Order!"
     }
 
     @Test
@@ -32,11 +36,12 @@ class OrderProcessorTest {
     }
 
     @Test
-    void shouldLogSomethingWentWrongWhenGivenBadOrder() {
-        Order badOrder = new Order(-1);
+    void shouldLogSomethingWentWrongWhenGivenBadOrder1() {
+        orderProcessor = new OrderProcessor(customOrderLogger);
 
+        Order badOrder = new Order(-1);
         orderProcessor.processOrder(badOrder);
 
-        // ???
+        "Something went wrong!".equals(customOrderLogger.lastMessageCalledWith);
     }
 }

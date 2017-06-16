@@ -1,16 +1,36 @@
 package com.important;
 
 import com.logging.OrderLogger;
+import com.logging.OrderLoggerInterface;
 import com.models.Order;
 
+// Parameter injection
+// Constructor injection
+// Property injection
+// "Reflection" injection
+
+
 public class OrderProcessor {
-    public void processOrder(Order order) {
-        OrderLogger.log("Processing order");
+    private OrderLoggerInterface orderLogger;
+
+    public OrderProcessor(OrderLoggerInterface orderLogger) {
+        this.orderLogger = orderLogger;
+    }
+
+    public Order processOrder(Order order) {
+        orderLogger = new OrderLogger();
+        orderLogger.log("Processing order");
 
         if(order.id < 0) {
-            OrderLogger.log("Something went wrong processing order: " + order.id);
+            orderLogger.log("Something went wrong processing order: " + order.id);
+            return order;
         }
 
-        OrderLogger.log("Finished Processing order!");
+        orderLogger.log("Finished Processing order!");
+        return order;
+    }
+
+    public void setOrderLogger(OrderLoggerInterface orderLogger) {
+        this.orderLogger = orderLogger;
     }
 }
