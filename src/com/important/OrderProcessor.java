@@ -1,6 +1,5 @@
 package com.important;
 
-import com.logging.OrderLogger;
 import com.logging.OrderLoggerInterface;
 import com.models.Order;
 
@@ -18,7 +17,6 @@ public class OrderProcessor {
     }
 
     public Order processOrder(Order order) {
-        orderLogger = new OrderLogger();
         orderLogger.log("Processing order");
 
         if(order.id < 0) {
